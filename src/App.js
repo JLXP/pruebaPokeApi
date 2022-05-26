@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React,{useEffect} from 'react';
+import { useSelector, useDispatch} from 'react-redux';
+import {BrowserRouter,Routes,Route } from 'react-router-dom'
+import {Navbar} from './components/ui/Navbar';
+import {PokemonList} from './components/pokemon/PokemonList';
+import { getPokemonAction } from './actions/pokemonActions';
+import {ModalPokemon} from './components/pokemon/ModalPokemon';
 
-function App() {
+
+
+export const App = () => {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {  
+    const loadingPokemons = ()=> {
+      dispatch(getPokemonAction());
+    }
+        
+    loadingPokemons();
+ 
+    }, [dispatch]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <BrowserRouter>
+      <Navbar/>
+      <Routes>  
+        <Route path='/' element={<PokemonList/>}/>     
+      </Routes>
+      <ModalPokemon/>
+    </BrowserRouter>
+  )
 }
-
-export default App;
